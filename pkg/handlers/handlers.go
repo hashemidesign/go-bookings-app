@@ -1,10 +1,11 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/hashemidesign/go-bookings-app/pkg/config"
 	"github.com/hashemidesign/go-bookings-app/pkg/models"
 	"github.com/hashemidesign/go-bookings-app/pkg/render"
-	"net/http"
 )
 
 // Repo is the repository used by handlers

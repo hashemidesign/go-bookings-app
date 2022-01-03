@@ -1,4 +1,46 @@
 {{template "base" .}}
 {{define "content"}}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-12 col-md-5 mx-auto">
+            <img src="/static/images/majors-suite.png" class="img-fluid img-thumbnail" alt="room image">
+        </div>
+    </div>
+</div>
 
+<div class="container my-5">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">Major's Suite</h1>
+            <p class="text-center">
+                Lorem ipsum dolor, sit amet consectetur adipisicing, elit. Nesciunt iste vero pariatur hic, et voluptatibus explicabo praesentium beatae a sequi iusto vel exercitationem eligendi deserunt ea suscipit, asperiores necessitatibus rem!
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button onclick="checkAvailability()" class="btn btn-outline-success">Check Availability</button>
+        </div>
+    </div>
+</div>
+{{end}}
+{{define "js"}}
+<script>
+function checkAvailability() {
+    let attention = Prompt();
+    let html = `
+        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+            <div class="row m-0" id="reservation-dates-modal">
+                <div class="col">
+                    <input disabled type="text" class="form-control" name="start" id="start" placeholder="Arrival" />
+                </div>
+                <div class="col">
+                    <input disabled type="text" class="form-control" name="end" id="end" placeholder="Departure" />
+                </div>
+            </div>
+        </form>
+    `;
+    attention.custom({msg: html, title: "choose your dates"})
+}
+</script>
 {{end}}
