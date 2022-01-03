@@ -29,7 +29,7 @@
 function checkAvailability() {
     let attention = Prompt();
     let html = `
-        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+        <form id="check-availability-form" action="/search-availability-json" method="get" novalidate class="needs-validation">
             <div class="row m-0" id="reservation-dates-modal">
                 <div class="col">
                     <input disabled type="text" class="form-control" name="start" id="start" placeholder="Arrival" />
@@ -40,7 +40,42 @@ function checkAvailability() {
             </div>
         </form>
     `;
-    attention.custom({msg: html, title: "choose your dates"})
+    attention.custom({
+        msg: html, 
+        title: "choose your dates",
+        willOpen: () => {
+            const elem = document.getElementById("reservation-dates-modal");
+            const rp = new DateRangePicker(elem, {
+                format: "yyyy-mm-dd",
+                showOnFocus: true
+            })
+        },
+        didOpen: () => {
+            document.getElementById('start').removeAttribute('disabled');
+            document.getElementById('end').removeAttribute('disabled');
+        },
+        preConfirm: () => {
+            return [
+                document.getElementById('start').value,
+                document.getElementById('end').value
+            ];
+        }
+        callback: (result) => {
+            let form = document.getElementById("check-availability-form");
+            let fd = new FormData(form)
+            fd.append("csrf_token", "{{.CSRFToken}}")
+            
+            fetch(form.action, {
+                method: "POST",
+                body: fd,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(err => console.log(err));
+        },
+    })
 }
 </script>
 {{end}}
